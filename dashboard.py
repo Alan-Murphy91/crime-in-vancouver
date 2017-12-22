@@ -21,7 +21,7 @@ def index():
 def data_function():
     connection = MongoClient(MONGODB_HOST, MONGODB_PORT)
     collection = connection[DBS_NAME][COLLECTION_NAME]
-    projects = collection.find(projection=FIELDS, limit=10000)
+    projects = collection.find(projection=FIELDS, limit=50000)
     json_projects = []
     for project in projects:
         json_projects.append(project)
