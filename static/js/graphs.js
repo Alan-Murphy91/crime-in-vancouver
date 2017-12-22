@@ -1,6 +1,17 @@
 d3.json("/data", function (bsondata) {
 	var ndx = crossfilter(bsondata);
 
+	var parseDate = d3.time.format("%m/%d/%Y").parse;
+	
+  	bsondata.forEach(function(d) {
+	   d.date = d["MONTH"].toString() + "/" + d["DAY"].toString() + "/" + d["YEAR"].toString();
+	   d.date = parseDate(d.date);
+   });
+	
+   var dateDim = ndx.dimension(function(d) {
+	   	return d.date ? d.date : ""
+   })
+
 	var crimeTypeDim = ndx.dimension(function(d) {
 		 return d["TYPE"] ? d["TYPE"] : "" });
 
@@ -20,16 +31,16 @@ d3.json("/data", function (bsondata) {
 		return d;
 	})
 
+	var minDate = dateDim.bottom(1)[0].date;
+	var maxDate = dateDim.top(1)[0].date;
+
+	console.log(minDate);
 	var crimeGroup = crimeTypeDim.group();
 	var yearGroup = yearDim.group();
 	var hourGroup = hourDim.group();
 	var neighbourhoodGroup = neighbourhoodDim.group();
 	var locationGroup = locationDim.group();
 	var all = ndx.groupAll();
-
-	var firstX = yearDim.bottom(1)[0]['YEAR'];
-	var lastX = yearDim.top(1)[0]['YEAR'];
-	console.log(lastX);
 
 	var numberRecordsND = dc.numberDisplay("#number-records-nd");
 	var chartByYear = dc.barChart("#time-chart");
@@ -51,7 +62,7 @@ d3.json("/data", function (bsondata) {
     .dimension(yearDim)
     .group(yearGroup)
     .transitionDuration(500)
-    .x(d3.time.scale().domain([2013, 2017]))
+    .x(d3.time.scale().domain([minDate, maxDate]))
     .elasticY(true)
     .yAxis().ticks(4);
 
@@ -81,7 +92,7 @@ d3.json("/data", function (bsondata) {
 		  .ordering(function(d) { return -d.value })
 		  .elasticX(true)
 		  .labelOffsetY(10)
-		  .xAxis().ticks(4);
+		  .xAxis().ticks(3);
 
 	dc.renderAll();
 });
