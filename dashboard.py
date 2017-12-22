@@ -11,7 +11,7 @@ MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 DBS_NAME = 'vancouver'
 COLLECTION_NAME = 'crime'
-FIELDS = {'_id': False, 'TYPE': True, 'YEAR': True, 'HOUR': True, 'NEIGHBOURHOOD': True, 'X': True, 'Y': True, 'Latitude': True, 'Longitude': True} 
+FIELDS = {'_id': False, 'TYPE': True, 'YEAR': True, 'MONTH': True, 'HOUR': True, 'NEIGHBOURHOOD': True, 'X': True, 'Y': True, 'Latitude': True, 'Longitude': True} 
 
 @app.route("/")
 def index():

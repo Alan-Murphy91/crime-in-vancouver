@@ -27,11 +27,9 @@ d3.json("/data", function (bsondata) {
 	var locationGroup = locationDim.group();
 	var all = ndx.groupAll();
 
-	console.log(crimeGroup.all());
-
 	var firstX = yearDim.bottom(1)[0]['YEAR'];
 	var lastX = yearDim.top(1)[0]['YEAR'];
-
+	console.log(lastX);
 
 	var numberRecordsND = dc.numberDisplay("#number-records-nd");
 	var chartByYear = dc.barChart("#time-chart");
@@ -73,7 +71,7 @@ d3.json("/data", function (bsondata) {
         .group(crimeGroup)
         .ordering(function(d) { return -d.value })
         .elasticX(true)
-        .xAxis().ticks(4);
+        .xAxis().ticks(6);
 
 	locationChart
 		.width(200)
