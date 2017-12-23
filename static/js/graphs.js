@@ -7,10 +7,6 @@ d3.json("/data", function (bsondata) {
 		d.date = d["MONTH"].toString() + "/" + d["DAY"].toString() + "/" + d["YEAR"].toString();
 	   	d.date = parseDate(d.date);
    });
-	
-	// var dateDim = ndx.dimension(function(d) {
-	// 		return d.date ? d.date : ""
-	// })
 
 	var dateDim = ndx.dimension(function(d) {
 		return d.date ? d.date : ""
@@ -46,12 +42,11 @@ d3.json("/data", function (bsondata) {
 	var locationGroup = locationDim.group();
 	var all = ndx.groupAll();
 
-	var numberOfCrimes = dc.numberDisplay("#number-records-nd");
-	var chartByYear = dc.barChart("#time-chart");
-	var timeOfDayChart = dc.rowChart("#age-segment-row-chart");
-	var crimeChart = dc.rowChart("#phone-brand-row-chart");
-	//var areaChart = dc.rowChart("#phone-brand-row-chart");
-	var locationChart = dc.rowChart("#location-row-chart");	
+	var numberOfCrimes = dc.numberDisplay("#numberOfCrimes");
+	var chartByYear = dc.barChart("#chartByYear");
+	var timeOfDayChart = dc.rowChart("#timeOfDayChart");
+	var crimeChart = dc.rowChart("#crimeChart");
+	var locationChart = dc.rowChart("#locationChart");	
 
 	numberOfCrimes
     .formatNumber(d3.format("d"))
@@ -102,7 +97,7 @@ d3.json("/data", function (bsondata) {
 	var map = L.map('map');
 	var drawMap = function(){
 		
-			map.setView([49.25, -123.12], 11);
+			map.setView([49.25, -123.12], 12);
 			mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 			L.tileLayer(
 				'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -110,14 +105,13 @@ d3.json("/data", function (bsondata) {
 					maxZoom: 15,
 				}).addTo(map);
 		
-			//HeatMap
 			var geoData = [];
 			_.each(allDim.top(Infinity), function (d) {
 				geoData.push([d["Latitude"], d["Longitude"], 1]);
 			});
 			var heat = L.heatLayer(geoData,{
-				radius: 10,
-				blur: 20, 
+				radius: 9,
+				blur: 25, 
 				maxZoom: 1,
 			}).addTo(map);
 		
