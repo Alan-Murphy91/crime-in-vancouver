@@ -1,9 +1,28 @@
+import pandas as pd
+from shapely.geometry import Point, shape
+
 from flask import Flask
 from flask import render_template
 from pymongo import MongoClient
 import json
 from bson import json_util
 from bson.json_util import dumps
+
+def get_location(longitude, latitude, provinces_json):
+    
+    point = Point(longitude, latitude)
+
+    for record in provinces_json['features']:
+        polygon = shape(record['geometry'])
+        if polygon.contains(point):
+            return record['properties']['name']
+    return 'other'
+
+
+with open('input/geojson/vancouver.json') as data_file:    
+    provinces_json = json.load(data_file)
+
+
 
 app = Flask(__name__)
 
@@ -29,5 +48,11 @@ def data_function():
     connection.close()
     return json_projects
 
+def panda():
+    df['location'] = df.apply(lambda row: get_location(row['longitude'], row['latitude'], provinces_json), axis=1)
+    cols_to_keep = ['longitude', 'latitude', 'location']
+    df_clean = df[cols_to_keep].dropna()
+    return df_clean.to_json(orient='records')    
+    
 if __name__ == "__main__":
     app.run()

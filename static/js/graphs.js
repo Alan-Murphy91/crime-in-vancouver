@@ -98,5 +98,42 @@ d3.json("/data", function (bsondata) {
 		  .labelOffsetY(10)
 		  .xAxis().ticks(3);
 
+
+	var map = L.map('map');
+	var drawMap = function(){
+		
+			map.setView([49.25, -123.12], 11);
+			mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+			L.tileLayer(
+				'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+					attribution: '&copy; ' + mapLink + ' Contributors',
+					maxZoom: 15,
+				}).addTo(map);
+		
+			//HeatMap
+			var geoData = [];
+			_.each(allDim.top(Infinity), function (d) {
+				geoData.push([d["Latitude"], d["Longitude"], 1]);
+			});
+			var heat = L.heatLayer(geoData,{
+				radius: 10,
+				blur: 20, 
+				maxZoom: 1,
+			}).addTo(map);
+		
+		};
+
+	dcCharts = [numberOfCrimes, chartByYear, timeOfDayChart, crimeChart, locationChart];
+		
+		_.each(dcCharts, function (dcChart) {
+			dcChart.on("filtered", function (chart, filter) {
+				map.eachLayer(function (layer) {
+				  map.removeLayer(layer)
+				}); 
+			drawMap();
+			});
+		});	
+
+	drawMap();
 	dc.renderAll();
 });
