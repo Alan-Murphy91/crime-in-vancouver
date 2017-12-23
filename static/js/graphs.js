@@ -62,7 +62,8 @@ d3.json("/data", function (bsondata) {
     .group(dateGroup)
     .transitionDuration(500)
     .x(d3.time.scale().domain([minDate, maxDate]))
-    .elasticY(true)
+	.elasticY(true)
+	.colors(['#52FDE7'])
     .yAxis().ticks(4);
 
 	timeOfDayChart
@@ -71,6 +72,7 @@ d3.json("/data", function (bsondata) {
 	.dimension(hourDim)
 	.group(hourGroup)
 	.ordering(function(d) { return -d.value })
+	.colors(d3.scale.ordinal().range(['#51F5E0']))
 	.elasticX(true)
 	.xAxis().ticks(4);
 
@@ -79,19 +81,22 @@ d3.json("/data", function (bsondata) {
     .height(360)
         .dimension(crimeTypeDim)
         .group(crimeGroup)
-        .ordering(function(d) { return -d.value })
+		.ordering(function(d) { return -d.value })
+		.colors(d3.scale.ordinal().range(['#51F5E0']))
         .elasticX(true)
         .xAxis().ticks(6);
 
 	locationChart
 		.width(200)
-	  .height(660)
+	  .height(655)
 		  .dimension(neighbourhoodDim)
 		  .group(neighbourhoodGroup)
 		  .ordering(function(d) { return -d.value })
 		  .elasticX(true)
+		  .colors(d3.scale.ordinal().range(['#FDB592','#FEE29E','#50EFDA', '#692D8D', '#D564AB']))
 		  .labelOffsetY(10)
 		  .xAxis().ticks(3);
+
 
 
 	var map = L.map('map');
