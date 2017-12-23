@@ -4,13 +4,17 @@ d3.json("/data", function (bsondata) {
 	var parseDate = d3.time.format("%m/%d/%Y").parse;
 	
   	bsondata.forEach(function(d) {
-	   d.date = d["MONTH"].toString() + "/" + d["DAY"].toString() + "/" + d["YEAR"].toString();
-	   d.date = parseDate(d.date);
+		d.date = d["MONTH"].toString() + "/" + d["DAY"].toString() + "/" + d["YEAR"].toString();
+	   	d.date = parseDate(d.date);
    });
 	
-   var dateDim = ndx.dimension(function(d) {
-	   	return d.date ? d.date : ""
-   })
+	// var dateDim = ndx.dimension(function(d) {
+	// 		return d.date ? d.date : ""
+	// })
+
+	var dateDim = ndx.dimension(function(d) {
+		return d.date ? d.date : ""
+	})
 
 	var crimeTypeDim = ndx.dimension(function(d) {
 		 return d["TYPE"] ? d["TYPE"] : "" });
@@ -34,22 +38,22 @@ d3.json("/data", function (bsondata) {
 	var minDate = dateDim.bottom(1)[0].date;
 	var maxDate = dateDim.top(1)[0].date;
 
-	console.log(minDate);
 	var crimeGroup = crimeTypeDim.group();
+	var dateGroup = dateDim.group();
 	var yearGroup = yearDim.group();
 	var hourGroup = hourDim.group();
 	var neighbourhoodGroup = neighbourhoodDim.group();
 	var locationGroup = locationDim.group();
 	var all = ndx.groupAll();
 
-	var numberRecordsND = dc.numberDisplay("#number-records-nd");
+	var numberOfCrimes = dc.numberDisplay("#number-records-nd");
 	var chartByYear = dc.barChart("#time-chart");
 	var timeOfDayChart = dc.rowChart("#age-segment-row-chart");
 	var crimeChart = dc.rowChart("#phone-brand-row-chart");
 	//var areaChart = dc.rowChart("#phone-brand-row-chart");
 	var locationChart = dc.rowChart("#location-row-chart");	
 
-	numberRecordsND
+	numberOfCrimes
     .formatNumber(d3.format("d"))
     .valueAccessor(function(d){return d; })
     .group(all);
@@ -57,10 +61,10 @@ d3.json("/data", function (bsondata) {
 
   	chartByYear
     .width(650)
-    .height(140)
+    .height(240)
     .margins({top: 10, right: 50, bottom: 20, left: 20})
-    .dimension(yearDim)
-    .group(yearGroup)
+    .dimension(dateDim)
+    .group(dateGroup)
     .transitionDuration(500)
     .x(d3.time.scale().domain([minDate, maxDate]))
     .elasticY(true)
@@ -68,7 +72,7 @@ d3.json("/data", function (bsondata) {
 
 	timeOfDayChart
 	.width(300)
-	.height(310)
+	.height(360)
 	.dimension(hourDim)
 	.group(hourGroup)
 	.ordering(function(d) { return -d.value })
@@ -77,7 +81,7 @@ d3.json("/data", function (bsondata) {
 
 	crimeChart
     .width(300)
-    .height(310)
+    .height(360)
         .dimension(crimeTypeDim)
         .group(crimeGroup)
         .ordering(function(d) { return -d.value })
@@ -86,7 +90,7 @@ d3.json("/data", function (bsondata) {
 
 	locationChart
 		.width(200)
-	  .height(510)
+	  .height(660)
 		  .dimension(neighbourhoodDim)
 		  .group(neighbourhoodGroup)
 		  .ordering(function(d) { return -d.value })
