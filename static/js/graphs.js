@@ -44,7 +44,7 @@ d3.json("/data", function (bsondata) {
 
 	var numberOfCrimes = dc.numberDisplay("#numberOfCrimes");
 	var chartByYear = dc.barChart("#chartByYear");
-	var timeOfDayChart = dc.rowChart("#timeOfDayChart");
+	var timeOfDayChart = dc.pieChart("#timeOfDayChart");
 	var crimeChart = dc.rowChart("#crimeChart");
 	var locationChart = dc.rowChart("#locationChart");	
 
@@ -67,14 +67,32 @@ d3.json("/data", function (bsondata) {
     .yAxis().ticks(4);
 
 	timeOfDayChart
-	.width(300)
+	.width(400)
 	.height(360)
+	.radius(160)
+	.innerRadius(45)
 	.dimension(hourDim)
 	.group(hourGroup)
-	.ordering(function(d) { return -d.value })
-	.colors(d3.scale.ordinal().range(['#51F5E0']))
-	.elasticX(true)
-	.xAxis().ticks(4);
+	//.ordering(function(d) { return -d.value })
+	.colors(d3.scale.ordinal().range(['#FDB592','#FEE29E','#50EFDA', '#692D8D', '#D564AB']))
+	// .label(function (d) {
+	// 	if (timeOfDayChart.hasFilter() && !timeOfDayChart.hasFilter(d.key)) {
+	// 		return d.key + '(0%)';
+	// 	}
+	// 	var label = d.key;
+	// 	if (all.value()) {
+	// 		label += '(' + Math.floor(d.value / all.value() * 100) + '%)';
+	// 	}
+	// 	return label;
+	// })
+	.on('renderlet', function (chart) {
+		chart.select("svg > g").attr("transform", "translate(200,170)");
+	})
+	.drawPaths(true)
+	.externalRadiusPadding(60)
+	.minAngleForLabel(0)
+	.externalLabels(40)
+	.renderLabel(true);
 
 	crimeChart
     .width(300)
@@ -96,8 +114,6 @@ d3.json("/data", function (bsondata) {
 		  .colors(d3.scale.ordinal().range(['#FDB592','#FEE29E','#50EFDA', '#692D8D', '#D564AB']))
 		  .labelOffsetY(10)
 		  .xAxis().ticks(3);
-
-
 
 	var map = L.map('map');
 	var drawMap = function(){
