@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from shapely.geometry import Point, shape
 
@@ -26,9 +27,11 @@ with open('input/geojson/vancouver.json') as data_file:
 
 app = Flask(__name__)
 
-MONGODB_HOST = 'localhost'
-MONGODB_PORT = 27017
-DBS_NAME = 'vancouver'
+MONGO_URI = os.getenv('MONGODB_URI', 'mongodb://alan3698:grouse47099*@ds131697.mlab.com:31697/heroku_8p2zl0jv')
+DBS_NAME = os.getenv('MONGO_DB_NAME', 'heroku_8p2zl0jv')
+#MONGODB_HOST = 'localhost'
+#MONGODB_PORT = 27017
+#DBS_NAME = 'vancouver'
 COLLECTION_NAME = 'crime'
 FIELDS = {'_id': False, 'TYPE': True, 'YEAR': True, 'MONTH': True, 'DAY': True, 'HOUR': True, 'NEIGHBOURHOOD': True, 'X': True, 'Y': True, 'Latitude': True, 'Longitude': True} 
 
@@ -38,15 +41,15 @@ def index():
 
 @app.route("/data")
 def data_function():
-    connection = MongoClient(MONGODB_HOST, MONGODB_PORT)
-    collection = connection[DBS_NAME][COLLECTION_NAME]
-    projects = collection.find(projection=FIELDS, limit=600000)
-    json_projects = []
-    for project in projects:
-        json_projects.append(project)
-    json_projects = json.dumps(json_projects, default=json_util.default)
-    connection.close()
-    return json_projects
+    with MongoClient(MONGO_URI) as connection:
+        collection = connection[DBS_NAME][COLLECTION_NAME]
+        projects = collection.find(projection=FIELDS, limit=30000)
+        json_projects = []
+        for project in projects:
+            json_projects.append(project)
+        json_projects = json.dumps(json_projects, default=json_util.default)
+        connection.close()
+        return json_projects
 
 def panda():
     df['location'] = df.apply(lambda row: get_location(row['longitude'], row['latitude'], provinces_json), axis=1)
