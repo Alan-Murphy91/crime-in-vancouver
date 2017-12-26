@@ -37,7 +37,7 @@ my leaflet map.
 Thanks to the combination of these three libraries I was able to segregate the available JSON data and construct the graphs and charts displayed
 on the dashboard. A problem I had initially was that my CSV file did not contain a headline column for date, as such I was left wanting
 of a timestamp for my timeline barchart. To resolve this I used a forEach function to catch the day, month and year in a column and convert
-the individual integers into a string which I was then able to parse into a string using d3's parse function. 
+the individual integers into a string which I was then able to parse into a string using d3's parse function. Aside from this I have just used standard DC/D3 code practice to display the data.
 
 Lines 118 to 150 are code excerpts which I have taken from the docs section of leaflet.js's documentation and the function for filtering the
 map is courtesy of Adil Moujahid (http://adilmoujahid.com/author/adil-moujahid.html). Prior to this I was quite unsure as to how to have
