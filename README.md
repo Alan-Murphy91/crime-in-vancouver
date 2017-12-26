@@ -29,7 +29,7 @@ of inclusion and exclusion in the projection. I had to re-check the database and
 field in the data which was hidden in my initial CSV file used to import the data to MongoDB. This data is non JSON serializable hence
 I was receiving the error. 
 
-Aside from preparing the app route functions for my imported CSV file I was also able (with some help from stack overflow) to use flask to export my GEOJSON file for use in
+Aside from preparing the app route functions for my imported CSV file I was also able to use flask to export my GEOJSON file for use in
 my leaflet map.
 
 ## D3/DC/Crossfilter (charts) Panda/Leaflet(Map)
