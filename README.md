@@ -48,4 +48,4 @@ the map interact with the data, forgetting a class of filtered was applied to hi
 I downloaded Heroku and using the dashboard and CLI was able to create an app. Using the mLab addon and the git interface I was able to push
 all my data onto the partitioned server space which now hosts my dashboard. Upon constructing the app I ran into a problem whereby Shapely,
 the python geometry library which overlays data on the map section from a GEOJSON conversion was missing a file from the GEOS library. To
-resolve this I simply uninstalled Shapely 1.4.0 and installed v1.6.3 which contains more functionality. This resolved the problem.
+resolve this I simply uninstalled Shapely 1.4.0 and installed v1.6.3 which is less liable for other python dependencies. This resolved the problem.
