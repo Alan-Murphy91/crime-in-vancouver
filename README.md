@@ -26,7 +26,7 @@ Mongo's delete many records command in the terminal to slim the data down to a w
 As per guidelines I used python's Flask library to establish a connection with the MongoDB 'mongod' instance running in my terminal to 
 serve the 'view' of the app. I initially ran into difficulty with this connection as I was served an error that I could not have a mix
 of inclusion and exclusion in the projection. I had to re-check the database and discovered that I was trying to import another 'id'
-field in the data which I didn't see in my initial CSV file used to import the data to MongoDB. This data is non JSON serializable hence
+field in the data which was hidden in my initial CSV file used to import the data to MongoDB. This data is non JSON serializable hence
 I was receiving the error. 
 
 Aside from preparing the app route functions for my imported CSV file I was also able (with some help from stack overflow) to use flask to export my GEOJSON file for use in
