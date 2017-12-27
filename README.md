@@ -10,7 +10,7 @@ This is an accumulation of interactive data for crime in Vancouver, British Colo
 Having studied markup for dashboards from a few data scientists prior to beginning the project I had a clear preference for the [bar-chart -> row chart -> chloropleth/heatmap] layout 
 as I found it to be functional whilst also aesthetically appealing. I have implemented the markup using a bootstrap template from keen.io and modified the breakpoints
 such that the responsive display shows just before the 'neighbourhood' chart infringes on the timeline div. I opted not to use 
-onboarding for the data as I felt the columns were sufficiently self-explanatory to not rouse any UX problems.
+onboarding for the data as I felt the columns were sufficiently self-explanatory as to not rouse any UX problems.
 
 ## CSS
 
