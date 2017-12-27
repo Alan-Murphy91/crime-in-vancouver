@@ -37,7 +37,7 @@ my leaflet map.
 Thanks to the combination of these three libraries I was able to segregate the available JSON data and construct the graphs and charts displayed
 on the dashboard. A problem I had initially was that my CSV file did not contain a headline column for date, as such I was left wanting
 of a timestamp for my timeline barchart. To resolve this I used a forEach function to catch the day, month and year in a column and convert
-the individual integers into a string which I was then able to parse into a string using d3's parse function. Aside from this I have just used standard DC/D3 code practice to display the data. Another problem I encountered was exceeding the maximum call stack size
+the individual integers into a string which I was then able to parse into a timestamp using d3's parse function. Aside from this I have just used standard DC/D3 code practice to display the data. Another problem I encountered was exceeding the maximum call stack size
 when declaring the data dims with my crossfilter object. I understand that this was happening due to my code calling a recursive function which could never find a satisfiable base case. To fix this, I used ternary conditional operators on all my dim variables
 to ensure that if the data was empty and the type was a string it would return an empty string and if the type was a number it would return zero.
 
